@@ -1,7 +1,29 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React ,{useState} from "react";
+import axios from "axios";
+import { Link,useNavigate } from "react-router-dom";
+import { baseUrl } from '../utils/fetchApi';
+import { useDispatch } from "react-redux";
+import { setLogIn } from "../Reducers/AuthSlice";
+
 
 const Register = () => {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [rePassword, setRePassword] = useState("");
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handle_register = () => {
+        const data = { name, email, password, 'password_confirmation': rePassword }
+        axios.post(baseUrl + 'register',data)
+        .then(({data}) => {
+            dispatch(setLogIn(data));
+            navigate('/');
+        });
+    }
+
+
     return (
         <div className="bg-gray-100">
             <div className="min-h-screen w-full p-6 flex justify-center items-center">
@@ -15,10 +37,10 @@ const Register = () => {
                                 Name
                             </label>
                             <input
-                                id="name"
+                                placeholder="name"
+                                onChange={(e) => setName(e.target.value)}
                                 type="text"
                                 className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
-                                name="name"
                             />
                         </fieldset>
                         <fieldset className="mb-4">
@@ -26,10 +48,10 @@ const Register = () => {
                                 E-mail
                             </label>
                             <input
-                                id="email"
+                                placeholder="email"
+                                onChange={(e) => setEmail(e.target.value)}
                                 type="email"
                                 className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
-                                name="email"
                             />
                         </fieldset>
                         <fieldset className="mb-4">
@@ -37,10 +59,10 @@ const Register = () => {
                                 Password
                             </label>
                             <input
-                                id="password"
+                                placeholder="password"
+                                onChange={(e) => setPassword(e.target.value)}
                                 type="password"
                                 className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
-                                name="password"
                             />
                         </fieldset>
                         <fieldset className="mb-4">
@@ -48,10 +70,10 @@ const Register = () => {
                                 Confirm Password
                             </label>
                             <input
-                                id="password_confirmation"
+                                placeholder="password confirmation"
+                                onChange={(e) => setRePassword(e.target.value)}
                                 type="password"
                                 className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
-                                name="password_confirmation"
                             />
                         </fieldset>
                         <div className="pt-1 pb-5 text-sm text-gray-darker font-thin">
@@ -67,6 +89,7 @@ const Register = () => {
                         </div>
                         <button
                             type="submit"
+                            onClick={handle_register}
                             className="block w-full bg-indigo-500 text-white rounded-sm py-3 text-sm tracking-wide"
                         >
                             Sign up

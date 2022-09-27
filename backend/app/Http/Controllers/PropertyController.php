@@ -6,6 +6,7 @@ use App\Models\Agent;
 use App\Models\City;
 use Illuminate\Http\Request;
 use App\Models\Property;
+use App\Models\PropertyImage;
 use App\Models\PropertyType;
 
 class PropertyController extends Controller
@@ -33,7 +34,7 @@ class PropertyController extends Controller
         $agents = Agent::all();
         $cities = City::all();
 
-        return view("pages.property.create",compact('cities','propertyTypes','agents'));
+        return view("pages.property.create", compact('cities', 'propertyTypes', 'agents'));
     }
 
     /**
@@ -46,9 +47,12 @@ class PropertyController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string',
             'price' => 'required',
             'status' => 'required|string',
+            'for' => 'required|string',
+            'beds' => 'required|integer',
+            'baths' => 'required|integer',
             'rooms' => 'required|integer',
             'address' => 'required|string',
             'property_type_id' => 'required|integer',
@@ -58,12 +62,11 @@ class PropertyController extends Controller
 
         $property = $request->except('_token');
 
-        if(!Property::create($property))
+        if (!Property::create($property))
             return redirect()->back()->withInput();
 
 
-        return redirect()->route("property.create")->with('status',"Property has been created successfully");
-
+        return redirect()->route("property.create")->with('status', "Property has been created successfully");
     }
 
     /**
@@ -80,7 +83,7 @@ class PropertyController extends Controller
         $cities = City::all();
 
 
-        return view("pages.property.edit", compact('property','propertyTypes','agents','cities'));
+        return view("pages.property.edit", compact('property', 'propertyTypes', 'agents', 'cities'));
     }
 
     /**
@@ -92,14 +95,18 @@ class PropertyController extends Controller
      */
     public function update(Request $request)
     {
+
         $property = Property::find($request->id);
 
         $request->validate([
             'name' => 'required|string',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string',
             'price' => 'required',
             'status' => 'required|string',
+            'for' => 'required|string',
             'rooms' => 'required|integer',
+            'beds' => 'required|integer',
+            'baths' => 'required|integer',
             'address' => 'required|string',
             'property_type_id' => 'required|integer',
             'agent_id' => 'required|integer',
@@ -108,13 +115,23 @@ class PropertyController extends Controller
 
         $data = $request->except('_token');
 
-
-
-        if(!$property->update($data))
+        if (!$property->update($data))
             return redirect()->back()->withInput();
 
+        if ($request->file('images')) {
+            foreach ($request->file('images') as $imagefile) {
+                $image = new PropertyImage;
 
-        return redirect()->route("property.edit",$request->id)->with('status',"Property has been updated successfully");
+                $filename = date('YmdHi') . $imagefile->getClientOriginalName();
+
+                $imagefile->move(public_path('public/Image'), $filename);
+
+                $image->fileName = $filename;
+                $image->property_id = $property->id;
+                $image->save();
+            }
+        }
+        return redirect()->route("property.edit", $request->id)->with('status', "Property has been updated successfully");
     }
 
     /**
@@ -127,9 +144,9 @@ class PropertyController extends Controller
     {
         $property = Property::find($id);
 
-        if(!$property->delete())
+        if (!$property->delete())
             return redirect()->back();
 
-        return redirect()->route("property.index")->with('status',"Property has been Deleted successfully");
+        return redirect()->route("property.index")->with('status', "Property has been Deleted successfully");
     }
 }

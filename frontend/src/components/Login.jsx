@@ -1,7 +1,29 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, {  useState } from "react";
+import { Link,useNavigate } from "react-router-dom";
+import { baseUrl } from "../utils/fetchApi";
+import {useDispatch} from 'react-redux';
+import {setLogIn} from "../Reducers/AuthSlice";
+import axios from "axios";
+
 
 const Login = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handle_login = () => {
+        let data = { email, password };
+
+        axios.post(baseUrl + 'login', data)
+            .then(({ data }) => {
+                dispatch(setLogIn(data));
+                
+                localStorage.setItem('token',`${data.authorisation.type} ${data.authorisation.token}`);
+                navigate('/');
+            });
+    }
+
     return (
         <>
             <div className="bg-gray-100">
@@ -18,8 +40,9 @@ const Login = () => {
                                 <input
                                     id="email"
                                     type="email"
+                                    onChange={(e) => setEmail(e.target.value)}
                                     className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
-                                    name="email"
+                                    placeholder="email"
                                 />
                             </fieldset>
                             <fieldset className="mb-4">
@@ -36,9 +59,10 @@ const Login = () => {
                                 </div>
                                 <input
                                     id="password"
+                                    onChange={(e) => setPassword(e.target.value)}
                                     type="password"
                                     className="block w-full rounded-sm border bg-white py-2 px-3 text-sm"
-                                    name="password"
+                                    placeholder="password"
                                 />
                             </fieldset>
                             <div className="pt-1 pb-5 text-sm text-gray-darker font-thin">
@@ -54,6 +78,7 @@ const Login = () => {
                             </div>
                             <button
                                 type="submit"
+                                onClick={handle_login}
                                 className="block w-full bg-indigo-500 text-white rounded-sm py-3 text-sm tracking-wide"
                             >
                                 Sign in

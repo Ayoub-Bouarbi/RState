@@ -19,15 +19,25 @@ class Property extends Model
         'address',
         'price',
         'rooms',
+        'beds',
+        'baths',
+        'for',
         'city_id',
         'agent_id',
         'property_type_id'
     ];
-    
+
     protected $casts = [
         'city_id' => 'integer',
         'property_type_id' => 'integer',
         'agent_id' => 'integer',
+    ];
+
+    protected $with = [
+        'City:id,name,country_id',
+        'Agent:id,name,email,address,phoneNumber',
+        'PropertyType:id,name',
+        'Images:id,fileName,property_id'
     ];
 
     function setNameAttribute($name)
@@ -36,15 +46,22 @@ class Property extends Model
         $this->attributes['slug'] = Str::slug($name);
     }
 
-    function City()
+    public function Images()
+    {
+        return $this->hasMany(PropertyImage::class);
+    }
+
+    public function City()
     {
         return $this->belongsTo(City::class);
     }
-    function PropertyType()
+
+    public function PropertyType()
     {
         return $this->belongsTo(PropertyType::class);
     }
-    function Agent()
+
+    public function Agent()
     {
         return $this->belongsTo(Agent::class);
     }

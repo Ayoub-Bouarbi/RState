@@ -1,4 +1,4 @@
-@section('title', 'Create City')
+@section('title', 'Create Country')
 
 @php
 
@@ -12,13 +12,13 @@ $status = Session::get('status');
 @section('content')
 
     <div class="px-10 bg-white w-full">
-        <h1 class="text-2xl my-4 text-gray-500">Create City</h1>
+        <h1 class="text-2xl my-4 text-gray-500">Create Country</h1>
         @if ($status)
             <div class="px-4 py-2 bg-green-300 text-green-700 my-4">
                 {{ $status }}
             </div>
         @endif
-        <form class="w-1/2" action="{{ route('city.store') }}" method="POST">
+        <form class="w-1/2" action="{{ route('country.store') }}" method="POST">
             @csrf
             <div class="form-group mb-6">
                 <input type="text"

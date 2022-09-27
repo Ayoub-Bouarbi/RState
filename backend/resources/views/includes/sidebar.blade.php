@@ -46,6 +46,17 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('user.index') }}"
+                    class="flex items-center p-2 text-base font-normal text-white rounded-lg hover:bg-gray-500">
+                    <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 transition duration-75 text-white"
+                        fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="flex-1 ml-3 whitespace-nowrap">User</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('propertyType.index') }}"
                     class="flex items-center p-2 text-base font-normal text-white rounded-lg hover:bg-gray-500">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

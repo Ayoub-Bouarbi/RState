@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\PropertyTypeController;
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\PropertyController;
 
 /*
@@ -56,3 +57,8 @@ Route::post('/property/store',[PropertyController::class,'store'])->name('proper
 Route::get('/property/{id}/edit',[PropertyController::class,'edit'])->name('property.edit');
 Route::post('/property/update',[PropertyController::class,'update'])->name('property.update');
 Route::delete('/property/{id}/destroy',[PropertyController::class,'destroy'])->name('property.destroy');
+
+Route::get('/user',[UserController::class,'index'])->name('user.index');
+Route::get('/user/{id}/edit',[UserController::class,'edit'])->name('user.edit');
+Route::post('/user/update',[UserController::class,'update'])->name('user.update');
+Route::delete('/user/{id}/destroy',[UserController::class,'destroy'])->name('user.destroy');

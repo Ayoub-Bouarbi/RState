@@ -93,7 +93,6 @@ class CountryController extends Controller
         $data = $request->except('_token');
 
 
-
         if(!$country->update($data))
             return redirect()->back()->withInput();
 

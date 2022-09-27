@@ -23,8 +23,11 @@ class CreatePropertiesTable extends Migration
             $table->string("description");
             $table->string("address");
             $table->float("price");
+            $table->string('for');
             $table->string("status");
             $table->integer("rooms");
+            $table->integer("baths");
+            $table->integer("beds");
             $table->foreignIdFor(PropertyType::class);
             $table->foreignIdFor(City::class);
             $table->foreignIdFor(Agent::class);

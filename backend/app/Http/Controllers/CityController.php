@@ -41,7 +41,8 @@ class CityController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string'
+            'name' => 'required|string',
+            'country_id' => 'required|integer',
         ]);
 
         $city = $request->except('_token');
@@ -80,11 +81,11 @@ class CityController extends Controller
         $city = City::find($request->id);
 
         $request->validate([
-            'name' => 'required|string'
+            'name' => 'required|string',
+            'country_id' => 'required|integer'
         ]);
 
         $data = $request->except('_token');
-
 
 
         if(!$city->update($data))

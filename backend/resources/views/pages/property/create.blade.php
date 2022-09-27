@@ -94,6 +94,66 @@ $status = Session::get('status');
                     @enderror
                 </div>
                 <div class="form-group mb-6">
+                    <select type="text"
+                        class="form-control block
+            w-full
+            px-3
+            py-1.5
+            text-base
+            font-normal
+            text-gray-700
+            bg-white
+            border border-solid border-gray-300
+            rounded
+            m-0
+            @error('for') border-red-400 @enderror"
+                        id="for" name="for">
+                        <option value='renting' class="text-gray-700">Renting</option>
+                        <option value='buying' class="text-gray-700">Buying</option>
+                    </select>
+                    @error('for')
+                        <p class="text-xs text-red-400">you must select a purpose</p>
+                    @enderror
+                </div>
+            </div>
+            <div class="grid grid-cols-3 gap-4">
+                <div class="form-group mb-6">
+                    <input type="number"
+                        class="form-control block
+          w-full
+          px-3
+          py-1.5
+          text-base
+          font-normal
+          text-gray-700
+          bg-white
+          border border-solid border-gray-300
+          rounded
+          m-0 @error('beds') border-red-400 @enderror"
+                        id="beds" value="{{ old('beds') }}" name="beds" placeholder="beds">
+                    @error('beds')
+                        <p class="text-xs text-red-400">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="form-group mb-6">
+                    <input type="number"
+                        class="form-control block
+          w-full
+          px-3
+          py-1.5
+          text-base
+          font-normal
+          text-gray-700
+          bg-white
+          border border-solid border-gray-300
+          rounded
+          m-0 @error('baths') border-red-400 @enderror"
+                        id="baths" value="{{ old('baths') }}" name="baths" placeholder="baths">
+                    @error('baths')
+                        <p class="text-xs text-red-400">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="form-group mb-6">
                     <input type="number"
                         class="form-control block
           w-full

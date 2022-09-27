@@ -15,11 +15,12 @@ class City extends Model
         'name',
         'country_id'
     ];
+    protected $with = ['Country:id,name'];
 
-    protected function Country(){
+    public function Country(){
         return $this->belongsTo(Country::class);
     }
-    protected function Properties()
+    public function Properties()
     {
         return $this->hasMany(Property::class);
     }
