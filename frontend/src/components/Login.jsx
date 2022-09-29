@@ -1,8 +1,8 @@
-import React, {  useState } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { baseUrl } from "../utils/fetchApi";
-import {useDispatch} from 'react-redux';
-import {setLogIn} from "../Reducers/AuthSlice";
+import { useDispatch, useSelector } from 'react-redux';
+import { setLogIn } from "../Reducers/AuthSlice";
 import axios from "axios";
 
 
@@ -12,14 +12,22 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+
+    let isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+    useEffect(() => {
+        if (isLoggedIn)
+            navigate('/');
+    }, [isLoggedIn]);
+
+
     const handle_login = () => {
         let data = { email, password };
-
         axios.post(baseUrl + 'login', data)
             .then(({ data }) => {
                 dispatch(setLogIn(data));
-                
-                localStorage.setItem('token',`${data.authorisation.type} ${data.authorisation.token}`);
+
+                localStorage.setItem('token', `${data.authorisation.type} ${data.authorisation.token}`);
                 navigate('/');
             });
     }
@@ -78,7 +86,7 @@ const Login = () => {
                             </div>
                             <button
                                 type="submit"
-                                onClick={handle_login}
+                                onClick={() => handle_login()}
                                 className="block w-full bg-indigo-500 text-white rounded-sm py-3 text-sm tracking-wide"
                             >
                                 Sign in

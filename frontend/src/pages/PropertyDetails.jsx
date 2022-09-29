@@ -3,13 +3,18 @@ import React, { useEffect, useState } from 'react'
 import { GoStar, GoLocation } from 'react-icons/go';
 import { useParams } from 'react-router-dom'
 import { fetchApi, baseUrl } from '../utils/fetchApi';
-import { Modal } from 'flowbite-react'
+import { Modal, Toast } from 'flowbite-react'
+import { useSelector } from 'react-redux';
+import { FaInfo, FaTelegramPlane } from 'react-icons/fa';
 // import axios from 'axios';
 
 const PropertyDetails = () => {
     const { slug } = useParams();
     const [property, setProperty] = useState({});
     const [showModal, setShowModal] = useState(false);
+    const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+    const user  = useSelector((state) => state.auth.user);
+
 
     useEffect(() => {
         fetchApi(baseUrl + 'property/' + slug)
@@ -131,46 +136,63 @@ const PropertyDetails = () => {
                                         >
                                             <Modal.Header />
                                             <Modal.Body>
-                                                <div className="p-6">
-                                                    <div className="grid grid-cols-2 gap-4">
+                                                {isLoggedIn ?
+                                                    <div className="p-6">
+                                                        <div className="grid grid-cols-2 gap-4">
+                                                            <div className="form-group mb-6">
+                                                                <label className="form-label text-sm inline-block mb-2 text-gray-700">First Name</label>
+                                                                <input type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0"
+                                                                    placeholder="First name" />
+                                                            </div>
+
+                                                            <div className="form-group mb-6">
+                                                                <label className="form-label text-sm inline-block mb-2 text-gray-700">Last Name</label>
+                                                                <input type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0"
+                                                                placeholder="Last Name" />
+                                                            </div>
+                                                        </div>
+                                                        
                                                         <div className="form-group mb-6">
-                                                            <label className="form-label text-sm inline-block mb-2 text-gray-700">Client Name</label>
-                                                            <input type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0"
-                                                                placeholder="client name" />
+                                                                <label className="form-label text-sm inline-block mb-2 text-gray-700">Phone Number</label>
+                                                                <input type="text" disabled className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0"
+                                                                placeholder="Phone Number" />
+                                                            </div>
+                                                        <div className="form-group mb-6">
+                                                            <label className="form-label text-sm inline-block mb-2 text-gray-700">Places</label>
+                                                            <select id="place" className="form-select block w-full px-3 py-1.5 text-base font-normal text-gray-700 border border-solid border-gray-300 rounded m-0" aria-label="Default select example">
+                                                                <option disabled>Select The Meeting place</option>
+                                                                <option>Place One</option>
+                                                                <option>Place Two</option>
+                                                                <option>Place Three</option>
+                                                                <option>Place Fourth</option>
+                                                                <option>Place Fifth</option>
+                                                            </select>
+                                                        </div>
+                                                        <div className="grid grid-cols-2 gap-4">
+                                                            <div className="form-group mb-6">
+                                                                <label className="form-label text-sm inline-block mb-2 text-gray-700">Meeting Date</label>
+                                                                <input type="date" id='date' className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0" />
+                                                            </div>
+
+                                                            <div className="form-group mb-6">
+                                                                <label className="form-label text-sm inline-block mb-2 text-gray-700">Meeting Time</label>
+                                                                <input type="time" id='time' className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0" />
+                                                            </div>
                                                         </div>
 
-                                                        <div className="form-group mb-6">
-                                                            <label className="form-label text-sm inline-block mb-2 text-gray-700">Agent Name</label>
-                                                            <input type="text" disabled className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0" value={property?.agent?.name} />
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-group mb-6">
-                                                        <label className="form-label text-sm inline-block mb-2 text-gray-700">Places</label>
-                                                        <select id="place" className="form-select block w-full px-3 py-1.5 text-base font-normal text-gray-700 border border-solid border-gray-300 rounded m-0" aria-label="Default select example">
-                                                            <option disabled>Select The Meeting place</option>
-                                                            <option>Place One</option>
-                                                            <option>Place Two</option>
-                                                            <option>Place Three</option>
-                                                            <option>Place Fourth</option>
-                                                            <option>Place Fifth</option>
-                                                        </select>
-                                                    </div>
-                                                    <div className="grid grid-cols-2 gap-4">
-                                                        <div className="form-group mb-6">
-                                                            <label className="form-label text-sm inline-block mb-2 text-gray-700">Meeting Date</label>
-                                                            <input type="date" id='date' className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0" />
-                                                        </div>
-
-                                                        <div className="form-group mb-6">
-                                                            <label className="form-label text-sm inline-block mb-2 text-gray-700">Meeting Time</label>
-                                                            <input type="time" id='time' className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0" />
-                                                        </div>
-                                                    </div>
-
-                                                    <button onClick={setMeeting} className="block mt-8 px-5 py-3 text-xs font-medium w-full text-white bg-green-600 rounded hover:bg-green-500">
-                                                        Set a Meeting
-                                                    </button>
-                                                </div>
+                                                        <button onClick={setMeeting} className="block mt-8 px-5 py-3 text-xs font-medium w-full text-white bg-green-600 rounded hover:bg-green-500">
+                                                            Set a Meeting
+                                                        </button>
+                                                    </div> 
+                                                    :
+                                                    <div className="space-x-4 divide-x divide-gray-200 dark:divide-gray-700">
+                                                        <Toast>
+                                                            <FaInfo className="h-5 w-5 text-blue-600 dark:text-blue-500" />
+                                                            <div className="pl-4 text-sm font-normal">
+                                                                You must Sign In, to Setup a meeting.
+                                                            </div>
+                                                        </Toast>
+                                                    </div>}
                                             </Modal.Body>
                                         </Modal>
                                     </div>

@@ -1,8 +1,8 @@
-import React ,{useState} from "react";
+import React ,{useEffect, useState} from "react";
 import axios from "axios";
 import { Link,useNavigate } from "react-router-dom";
 import { baseUrl } from '../utils/fetchApi';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setLogIn } from "../Reducers/AuthSlice";
 
 
@@ -13,6 +13,14 @@ const Register = () => {
     const [rePassword, setRePassword] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    let isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+    useEffect(() => {
+        if (isLoggedIn)
+            navigate('/');
+    }, [isLoggedIn]);
+
 
     const handle_register = () => {
         const data = { name, email, password, 'password_confirmation': rePassword }
