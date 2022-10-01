@@ -13,8 +13,28 @@ class Meeting extends Model
         "place",
         "time",
         "date",
-        "client_id",
+        "user_id",
         "property_id",
         "agent_id"
+    ];   
+    protected $with = [
+        'Agent',
+        'Property',
+        'User',
     ];
+
+    
+    public function Agent()
+    {
+        return $this->belongsTo(Agent::class);
+    }
+    public function Property()
+    {
+        return $this->HasOne(Property::class);
+    }
+    
+    public function User()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

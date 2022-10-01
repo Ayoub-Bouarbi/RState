@@ -1,19 +1,19 @@
 import Navbar from '../components/Navbar';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { GoStar, GoLocation } from 'react-icons/go';
 import { useParams } from 'react-router-dom'
 import { fetchApi, baseUrl } from '../utils/fetchApi';
 import { Modal, Toast } from 'flowbite-react'
 import { useSelector } from 'react-redux';
-import { FaInfo, FaTelegramPlane } from 'react-icons/fa';
-// import axios from 'axios';
+import { FaInfo } from 'react-icons/fa';
 
 const PropertyDetails = () => {
     const { slug } = useParams();
     const [property, setProperty] = useState({});
     const [showModal, setShowModal] = useState(false);
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-    const user  = useSelector((state) => state.auth.user);
+    const user = useSelector((state) => state.auth.user);
 
 
     useEffect(() => {
@@ -25,15 +25,23 @@ const PropertyDetails = () => {
     }, [slug]);
 
     const setMeeting = () => {
-        // let data = {
-        //     'agentName': property?.agent?.name,
-        //     'clientName': property?.user?.name,
-        //     'property_id': property?.id,
-        //     'place': document.getElementById('place').value,
-        //     'date': document.getElementById('date').value,
-        //     'time': document.getElementById('time').value,
-        // }
-        // axios.post(baseUrl+'meeting',data);
+        const token = localStorage.getItem('token');
+        let data = {
+            'agent_id': property?.agent?.id,
+            'user_id': user?.id,
+            'property_id': property?.id,
+            'place': document.getElementById('place').value,
+            'date': document.getElementById('date').value,
+            'time': document.getElementById('time').value,
+        }
+        axios.post(baseUrl + 'meeting', data, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            }
+        }).then((res) => {
+                console.warn(res)
+            });
     }
 
     return (
@@ -140,23 +148,17 @@ const PropertyDetails = () => {
                                                     <div className="p-6">
                                                         <div className="grid grid-cols-2 gap-4">
                                                             <div className="form-group mb-6">
-                                                                <label className="form-label text-sm inline-block mb-2 text-gray-700">First Name</label>
-                                                                <input type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0"
-                                                                    placeholder="First name" />
+                                                                <label className="form-label text-sm inline-block mb-2 text-gray-700">Agent Name</label>
+                                                                <input type="text" disabled defaultValue={property?.agent?.name} className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0"
+                                                                    placeholder="Agent Name" />
                                                             </div>
 
                                                             <div className="form-group mb-6">
-                                                                <label className="form-label text-sm inline-block mb-2 text-gray-700">Last Name</label>
-                                                                <input type="text" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0"
-                                                                placeholder="Last Name" />
+                                                                <label className="form-label text-sm inline-block mb-2 text-gray-700">Client Name</label>
+                                                                <input type="text" disabled defaultValue={user?.first_name + ' ' + user?.last_name} className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0"
+                                                                    placeholder="Client Name" />
                                                             </div>
                                                         </div>
-                                                        
-                                                        <div className="form-group mb-6">
-                                                                <label className="form-label text-sm inline-block mb-2 text-gray-700">Phone Number</label>
-                                                                <input type="text" disabled className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0"
-                                                                placeholder="Phone Number" />
-                                                            </div>
                                                         <div className="form-group mb-6">
                                                             <label className="form-label text-sm inline-block mb-2 text-gray-700">Places</label>
                                                             <select id="place" className="form-select block w-full px-3 py-1.5 text-base font-normal text-gray-700 border border-solid border-gray-300 rounded m-0" aria-label="Default select example">
@@ -180,10 +182,10 @@ const PropertyDetails = () => {
                                                             </div>
                                                         </div>
 
-                                                        <button onClick={setMeeting} className="block mt-8 px-5 py-3 text-xs font-medium w-full text-white bg-green-600 rounded hover:bg-green-500">
+                                                        <button onClick={() => setMeeting()} className="block mt-8 px-5 py-3 text-xs font-medium w-full text-white bg-green-600 rounded hover:bg-green-500">
                                                             Set a Meeting
                                                         </button>
-                                                    </div> 
+                                                    </div>
                                                     :
                                                     <div className="space-x-4 divide-x divide-gray-200 dark:divide-gray-700">
                                                         <Toast>

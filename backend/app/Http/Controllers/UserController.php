@@ -43,7 +43,10 @@ class UserController extends Controller
         $user = User::find($request->id);
 
         $request->validate([
-            'name' => 'required|string',
+            'username' => 'required|string',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'phone_number' => 'required|string',
             'email' => 'required|string|email',
             'password' => 'required|string|confirmed',
         ]);

@@ -2,6 +2,7 @@
 
 use App\Models\Agent;
 use App\Models\City;
+use App\Models\Meeting;
 use App\Models\PropertyType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -30,6 +31,7 @@ class CreatePropertiesTable extends Migration
             $table->integer("beds");
             $table->foreignIdFor(PropertyType::class);
             $table->foreignIdFor(City::class);
+            $table->foreignIdFor(Meeting::class);
             $table->foreignIdFor(Agent::class);
             $table->timestamps();
         });

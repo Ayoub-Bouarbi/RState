@@ -7,6 +7,7 @@ use App\Http\Controllers\PropertyTypeController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\MeetingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,3 +63,8 @@ Route::get('/user',[UserController::class,'index'])->name('user.index');
 Route::get('/user/{id}/edit',[UserController::class,'edit'])->name('user.edit');
 Route::post('/user/update',[UserController::class,'update'])->name('user.update');
 Route::delete('/user/{id}/destroy',[UserController::class,'destroy'])->name('user.destroy');
+
+
+
+Route::get('/meetings',[MeetingController::class,'index'])->name('meeting.index');
+Route::delete('/meetings/{id}/destroy',[MeetingController::class,'destroy'])->name('meeting.destroy');

@@ -15,14 +15,13 @@ const Navbar = () => {
 
     const handle_logout = () => {
         const token = localStorage.getItem('token');
-        axios.get(baseUrl + 'logout',{
+        axios.get(baseUrl + 'logout', {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': token
             }
         }).then((res) => {
-            console.log(token)
-            dispatch(setLogOut()); 
+            dispatch(setLogOut());
             localStorage.clear();
             navigate('/');
         }).catch((err) => {
@@ -67,9 +66,14 @@ const Navbar = () => {
                     :
                     <div className="flex items-center">
                         <Dropdown
-                            label={`Hi, ${user.name}`}
+                            label={`Hi, ${user.username}`}
                             inline={true}
                         >
+                            <Dropdown.Item>
+                                <Link to='my-meetings' >
+                                    Meetings
+                                </Link>
+                            </Dropdown.Item>
                             <Dropdown.Item onClick={() => handle_logout()}>
                                 Sign out
                             </Dropdown.Item>

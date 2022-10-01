@@ -10,7 +10,6 @@ $status = Session::get('status');
 
 
 @section('content')
-
     <div class="px-10 bg-white w-full">
         <h1 class="text-2xl my-4 text-gray-500">Edit User</h1>
         @if ($status)
@@ -36,9 +35,72 @@ $status = Session::get('status');
           transition
           ease-in-out
           m-0
-          @error('name') border-red-400 @enderror"
-                    id="name" value="{{ $user->name }}" name="name" placeholder="Name">
-                @error('name')
+          @error('username') border-red-400 @enderror"
+                    id="username" value="{{ $user->username }}" name="username" placeholder="username">
+                @error('username')
+                    <p class="text-xs text-red-400">{{ $message }}</p>
+                @enderror
+            </div>
+            <div class="form-group mb-6">
+                <input type="text"
+                    class="form-control block
+          w-full
+          px-3
+          py-1.5
+          text-base
+          font-normal
+          text-gray-700
+          bg-white bg-clip-padding
+          border border-solid border-gray-300
+          rounded
+          transition
+          ease-in-out
+          m-0
+          @error('first_name') border-red-400 @enderror"
+                    id="first_name" name="first_name" value="{{ $user->first_name }}" placeholder="first name">
+                @error('first_name')
+                    <p class="text-xs text-red-400">{{ $message }}</p>
+                @enderror
+            </div>
+            <div class="form-group mb-6">
+                <input type="text"
+                    class="form-control block
+          w-full
+          px-3
+          py-1.5
+          text-base
+          font-normal
+          text-gray-700
+          bg-white bg-clip-padding
+          border border-solid border-gray-300
+          rounded
+          transition
+          ease-in-out
+          m-0
+          @error('last_name') border-red-400 @enderror"
+                    id="last_name" name="last_name" value="{{ $user->last_name }}" placeholder="last name">
+                @error('last_name')
+                    <p class="text-xs text-red-400">{{ $message }}</p>
+                @enderror
+            </div>
+            <div class="form-group mb-6">
+                <input type="text"
+                    class="form-control block
+          w-full
+          px-3
+          py-1.5
+          text-base
+          font-normal
+          text-gray-700
+          bg-white bg-clip-padding
+          border border-solid border-gray-300
+          rounded
+          transition
+          ease-in-out
+          m-0
+          @error('phone_number') border-red-400 @enderror"
+                    id="phone_number" name="phone_number" value="{{ $user->phone_number }}" placeholder="phone number">
+                @error('phone_number')
                     <p class="text-xs text-red-400">{{ $message }}</p>
                 @enderror
             </div>

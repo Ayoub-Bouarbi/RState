@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PropertyController;
+use App\Http\Controllers\Api\MeetingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,3 +25,5 @@ Route::controller(AuthController::class)->group(function(){
 
 Route::get('/properties',[PropertyController::class,'properties']);
 Route::get('/property/{slug}',[PropertyController::class,'propertyDetails']);
+Route::post('/meeting',[MeetingController::class,'set_meeting']);
+Route::get('/my-meetings/{id}',[MeetingController::class,'meetings_by_user']);

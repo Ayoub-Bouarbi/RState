@@ -1,4 +1,4 @@
-@section('title', 'User')
+@section('title', 'Meetings')
 
 @extends('layout.master')
 
@@ -26,52 +26,52 @@ $status = Session::get('status');
                                 No</th>
                             <th
                                 class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                User Name</th>
+                                Place</th>
                             <th
                                 class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                First Name</th>
+                                Date</th>
                             <th
                                 class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                Last Name</th>
+                                Time</th>
                             <th
                                 class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                Phone Number</th>
+                                Client Name</th>
                             <th
                                 class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                E-mail</th>
+                                Agent Name</th>
                             <th class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50"
                                 width="180px">Action</th>
                         </tr>
                         <tbody class="bg-white">
-                            @foreach ($users as $user)
+                            @foreach ($meetings as $meeting)
                                 <tr>
-                                    <td class="px-6 whitespace-no-wrap border-b border-gray-200">{{ $user->id }}
+                                    <td class="px-6 whitespace-no-wrap border-b border-gray-200">{{ $meeting->id }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                        {{ $user->username }}
+                                        {{ $meeting->place }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                        {{ $user->first_name }}
+                                        {{ $meeting->date }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                        {{ $user->last_name }}
+                                        {{ $meeting->time }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                        {{ $user->phone_number }}
+                                        {{ $meeting->user->first_name . ' ' . $meeting->user->last_name }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                        {{ $user->email }}
+                                        {{ $meeting->agent->name }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                        <form action="{{ route('user.destroy', $user->id) }}" method="POST">
-                                            <a href="{{ route('user.edit', $user->id) }}"
+                                        <form action="{{ route('meeting.destroy', $meeting->id) }}" method="POST">
+                                            {{-- <a href="{{ route('meeting.edit', $meeting->id) }}"
                                                 class="text-indigo-600 hover:text-indigo-900 text-gray-600">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline-block"
                                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                                 </svg>
-                                            </a>
+                                            </a> --}}
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit">

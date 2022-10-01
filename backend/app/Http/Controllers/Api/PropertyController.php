@@ -16,7 +16,6 @@ class PropertyController extends Controller
     {
         $properties = Property::all();
 
-
         return response()->json([
             'status' => 'OK',
             'data' => $properties
