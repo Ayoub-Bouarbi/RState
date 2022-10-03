@@ -27,3 +27,4 @@ Route::get('/properties',[PropertyController::class,'properties']);
 Route::get('/property/{slug}',[PropertyController::class,'propertyDetails']);
 Route::post('/meeting',[MeetingController::class,'set_meeting']);
 Route::get('/my-meetings/{id}',[MeetingController::class,'meetings_by_user']);
+Route::delete('/delete-meeting/{id}',[MeetingController::class,'delete_meeting']);

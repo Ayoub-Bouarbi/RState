@@ -31,7 +31,6 @@ class CreatePropertiesTable extends Migration
             $table->integer("beds");
             $table->foreignIdFor(PropertyType::class);
             $table->foreignIdFor(City::class);
-            $table->foreignIdFor(Meeting::class);
             $table->foreignIdFor(Agent::class);
             $table->timestamps();
         });

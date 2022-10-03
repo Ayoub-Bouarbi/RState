@@ -33,7 +33,7 @@ class MeetingController extends Controller
             'status' => 'FAILED'
         ]);
     }
-    
+
 
     protected function meetings_by_user($id)
     {
@@ -43,5 +43,15 @@ class MeetingController extends Controller
             'status' => 'OK',
             'meetings' => $meetings
         ]);
+    }
+
+    protected function delete_meeting($id)
+    {
+        $meeting = Meeting::find($id);
+
+        if($meeting->delete())
+            return response()->json([
+                'status' => 'OK'
+            ]);
     }
 }

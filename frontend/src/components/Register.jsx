@@ -28,8 +28,9 @@ const Register = () => {
     const handle_register = () => {
         const data = { 'first_name': firstName, 'last_name': lastName, 'phone_number': phoneNumber, 'username': userName, email, password, 'password_confirmation': rePassword }
         axios.post(baseUrl + 'register', data)
-            .then(({ data }) => {
+            .then(({ data }) => { 
                 dispatch(setLogIn(data));
+                localStorage.setItem('token', `${data.authorisation.type} ${data.authorisation.token}`);
                 navigate('/');
             });
     }

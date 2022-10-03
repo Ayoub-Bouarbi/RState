@@ -9,11 +9,17 @@ import { useSelector } from 'react-redux';
 import { FaInfo } from 'react-icons/fa';
 
 const PropertyDetails = () => {
-    const { slug } = useParams();
     const [property, setProperty] = useState({});
     const [showModal, setShowModal] = useState(false);
+    const [place, setPlace] = useState("");
+    const [date, setDate] = useState(null);
+    const [time, setTime] = useState(null);
+
+    const { slug } = useParams();
+
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
     const user = useSelector((state) => state.auth.user);
+
 
 
     useEffect(() => {
@@ -26,22 +32,17 @@ const PropertyDetails = () => {
 
     const setMeeting = () => {
         const token = localStorage.getItem('token');
-        let data = {
-            'agent_id': property?.agent?.id,
-            'user_id': user?.id,
-            'property_id': property?.id,
-            'place': document.getElementById('place').value,
-            'date': document.getElementById('date').value,
-            'time': document.getElementById('time').value,
-        }
+
+        let data = { "property_id": property?.id, "agent_id": property?.agent?.id, "user_id": user?.id, date, time, place }
+
         axios.post(baseUrl + 'meeting', data, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': token
             }
         }).then((res) => {
-                console.warn(res)
-            });
+            setShowModal(false);
+        });
     }
 
     return (
@@ -161,7 +162,7 @@ const PropertyDetails = () => {
                                                         </div>
                                                         <div className="form-group mb-6">
                                                             <label className="form-label text-sm inline-block mb-2 text-gray-700">Places</label>
-                                                            <select id="place" className="form-select block w-full px-3 py-1.5 text-base font-normal text-gray-700 border border-solid border-gray-300 rounded m-0" aria-label="Default select example">
+                                                            <select onChange={(e) => setPlace(e.target.value)} id="place" className="form-select block w-full px-3 py-1.5 text-base font-normal text-gray-700 border border-solid border-gray-300 rounded m-0" aria-label="Default select example">
                                                                 <option disabled>Select The Meeting place</option>
                                                                 <option>Place One</option>
                                                                 <option>Place Two</option>
@@ -173,12 +174,12 @@ const PropertyDetails = () => {
                                                         <div className="grid grid-cols-2 gap-4">
                                                             <div className="form-group mb-6">
                                                                 <label className="form-label text-sm inline-block mb-2 text-gray-700">Meeting Date</label>
-                                                                <input type="date" id='date' className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0" />
+                                                                <input onChange={(e) => setDate(e.target.value)} type="date" id='date' className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0" />
                                                             </div>
 
                                                             <div className="form-group mb-6">
                                                                 <label className="form-label text-sm inline-block mb-2 text-gray-700">Meeting Time</label>
-                                                                <input type="time" id='time' className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0" />
+                                                                <input onChange={(e) => setTime(e.target.value)} type="time" id='time' className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0" />
                                                             </div>
                                                         </div>
 
